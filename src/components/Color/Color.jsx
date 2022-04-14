@@ -1,8 +1,11 @@
 import styled from 'styled-components'
 import { Adjust, Copy, LockAlt, LockOpenAlt } from '@styled-icons/boxicons-solid'
 import IconButton from '../IconButton'
+import useClipboard from '../../hooks/useClipboard'
 
 const Color = ({ id, hex, isLocked, toggleLocked, setNewColor }) => {
+  const [isCopied, copy] = useClipboard()
+
   return (
     <Container>
       <ColorBox color={hex} />
@@ -22,7 +25,7 @@ const Color = ({ id, hex, isLocked, toggleLocked, setNewColor }) => {
           <Adjust size={14} />
         </IconButton>
 
-        <IconButton aria-label="Copy to clipboard">
+        <IconButton aria-label="Copy to clipboard" onClick={() => copy(hex)}>
           <Copy size={14} />
         </IconButton>
       </Controls>
