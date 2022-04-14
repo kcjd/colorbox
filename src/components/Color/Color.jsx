@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { Adjust, Copy, LockAlt, LockOpenAlt } from '@styled-icons/boxicons-solid'
+import { LockAlt, LockOpenAlt } from '@styled-icons/boxicons-solid'
+import Button from '../Button'
 import IconButton from '../IconButton'
 import Picker from '../Picker'
 import useClipboard from '../../hooks/useClipboard'
@@ -18,11 +19,13 @@ const Color = ({ id, hex, isLocked, toggleLocked, setNewColor }) => {
 
   return (
     <Container>
-      <ColorBox color={hex} />
+      <ColorBox color={hex} onClick={() => setPickerOpen(true)} />
 
-      <HexText>{hex.replace('#', '')}</HexText>
+      <Content>
+        <Button ref={triggerRef} onClick={() => copy(hex)}>
+          {hex.replace('#', '')}
+        </Button>
 
-      <Controls>
         <IconButton
           data-active={isLocked}
           aria-label={isLocked ? 'Unlock color' : 'Lock color'}
@@ -30,15 +33,7 @@ const Color = ({ id, hex, isLocked, toggleLocked, setNewColor }) => {
         >
           {isLocked ? <LockAlt size={14} /> : <LockOpenAlt size={14} />}
         </IconButton>
-
-        <IconButton ref={triggerRef} aria-label="Pick new color" onClick={() => setPickerOpen(true)}>
-          <Adjust size={14} />
-        </IconButton>
-
-        <IconButton aria-label="Copy to clipboard" onClick={() => copy(hex)}>
-          <Copy size={14} />
-        </IconButton>
-      </Controls>
+      </Content>
 
       <Picker
         isOpen={isPickerOpen}
@@ -52,32 +47,25 @@ const Color = ({ id, hex, isLocked, toggleLocked, setNewColor }) => {
 }
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: grid;
 `
 
 const ColorBox = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  width: 100%;
-  height: 24rem;
-  margin-bottom: 1.5rem;
-  padding: 1rem;
+  height: 12rem;
   background-color: ${(props) => props.color};
+  cursor: pointer;
+
+  @media (min-width: 768px) {
+    height: 24rem;
+  }
 `
 
-const HexText = styled.span`
-  margin-bottom: 0.5rem;
-  font-size: 1.125rem;
-  font-weight: 600;
-  text-transform: uppercase;
-`
-
-const Controls = styled.div`
+const Content = styled.div`
   display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 0.25rem;
+  padding-block: 1rem;
 `
 
 export default Color
