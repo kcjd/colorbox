@@ -1,10 +1,14 @@
+import { useRef, useState } from 'react'
 import styled from 'styled-components'
 import { Adjust, Copy, LockAlt, LockOpenAlt } from '@styled-icons/boxicons-solid'
 import IconButton from '../IconButton'
+import Picker from '../Picker'
 import useClipboard from '../../hooks/useClipboard'
 
 const Color = ({ id, hex, isLocked, toggleLocked, setNewColor }) => {
   const [isCopied, copy] = useClipboard()
+  const [isPickerOpen, setPickerOpen] = useState(false)
+  const triggerRef = useRef()
 
   return (
     <Container>
@@ -21,7 +25,7 @@ const Color = ({ id, hex, isLocked, toggleLocked, setNewColor }) => {
           {isLocked ? <LockAlt size={14} /> : <LockOpenAlt size={14} />}
         </IconButton>
 
-        <IconButton aria-label="Pick new color">
+        <IconButton ref={triggerRef} aria-label="Pick new color" onClick={() => setPickerOpen(true)}>
           <Adjust size={14} />
         </IconButton>
 
@@ -29,6 +33,14 @@ const Color = ({ id, hex, isLocked, toggleLocked, setNewColor }) => {
           <Copy size={14} />
         </IconButton>
       </Controls>
+
+      <Picker
+        isOpen={isPickerOpen}
+        color={hex}
+        onChange={(v) => setNewColor(id, v)}
+        triggerRef={triggerRef}
+        onClose={() => setPickerOpen(false)}
+      />
     </Container>
   )
 }
