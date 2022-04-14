@@ -21,6 +21,15 @@ const GlobalStyle = createGlobalStyle`
     cursor: pointer;
   }
 
+  kbd {
+    font: inherit;
+
+    &::before,
+    &::after {
+      content: '\\0027';
+    }
+  }
+
   body {
     background-color: ${({ theme }) => theme.neutral[100]};
     color: ${({ theme }) => theme.neutral[900]};

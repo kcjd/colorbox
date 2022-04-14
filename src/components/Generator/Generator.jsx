@@ -3,6 +3,7 @@ import randomColor from 'randomcolor'
 import styled from 'styled-components'
 import Color from '../Color'
 import MainButton from '../MainButton'
+import useKeyPress from '../../hooks/useKeyPress'
 
 const initialState = randomColor({ count: 4 }).map((hex, id) => ({ id, hex, isLocked: false }))
 
@@ -21,6 +22,8 @@ const Generator = () => {
     setColors((prev) => prev.map((c) => (c.id === id ? { ...c, hex } : c)))
   }
 
+  useKeyPress('g', generateColors)
+
   return (
     <Container>
       <Palette>
@@ -38,6 +41,9 @@ const Generator = () => {
 
       <Controls>
         <MainButton onClick={generateColors}>Generate Random</MainButton>
+        <HelpText>
+          Or press <kbd>G</kbd> key
+        </HelpText>
       </Controls>
     </Container>
   )
@@ -60,11 +66,22 @@ const Palette = styled.div`
 
 const Controls = styled.div`
   position: absolute;
+  top: calc(100% - 2rem);
   left: 0;
   right: 0;
-  bottom: -2rem;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+`
+
+const HelpText = styled.p`
+  color: ${({ theme }) => theme.neutral[600]};
+  font-size: 0.875rem;
+
+  @media (max-width: 1023px) {
+    display: none;
+  }
 `
 
 export default Generator
