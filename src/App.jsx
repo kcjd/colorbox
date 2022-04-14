@@ -1,6 +1,7 @@
 import styled, { ThemeProvider } from 'styled-components'
 import Generator from './components/Generator'
 import GlobalStyle from './components/GlobalStyle'
+import Toast from './components/Toast/Toast'
 import theme from './theme'
 
 const App = () => {
@@ -11,6 +12,8 @@ const App = () => {
       <Container>
         <Generator />
       </Container>
+
+      <Toast />
     </ThemeProvider>
   )
 }

@@ -1,14 +1,20 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { Adjust, Copy, LockAlt, LockOpenAlt } from '@styled-icons/boxicons-solid'
 import IconButton from '../IconButton'
 import Picker from '../Picker'
 import useClipboard from '../../hooks/useClipboard'
+import { useToast } from '../../context/toastContext'
 
 const Color = ({ id, hex, isLocked, toggleLocked, setNewColor }) => {
   const [isCopied, copy] = useClipboard()
+  const { showToast } = useToast()
   const [isPickerOpen, setPickerOpen] = useState(false)
   const triggerRef = useRef()
+
+  useEffect(() => {
+    if (isCopied) showToast('Color copied to the clipboard !')
+  }, [isCopied])
 
   return (
     <Container>
