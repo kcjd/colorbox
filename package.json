@@ -8,8 +8,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@floating-ui/react-dom": "^0.6.2",
+    "@styled-icons/boxicons-solid": "^10.38.0",
+    "framer-motion": "^6.3.0",
+    "randomcolor": "^0.6.2",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-colorful": "^5.5.1",
+    "react-dom": "^18.0.0",
+    "styled-components": "^5.3.5"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",
