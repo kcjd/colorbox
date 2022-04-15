@@ -7,7 +7,7 @@ import Picker from '../Picker'
 import useClipboard from '../../hooks/useClipboard'
 import { useToast } from '../../context/toastContext'
 
-const Color = ({ id, hex, isLocked, toggleLocked, setNewColor }) => {
+const Color = ({ id, hex, isLocked, toggleLocked, setColor }) => {
   const [isCopied, copy] = useClipboard()
   const { showToast } = useToast()
   const [isPickerOpen, setPickerOpen] = useState(false)
@@ -19,7 +19,7 @@ const Color = ({ id, hex, isLocked, toggleLocked, setNewColor }) => {
 
   return (
     <Container>
-      <ColorBox color={hex} onClick={() => setPickerOpen(true)} />
+      <ColorBox style={{ backgroundColor: hex }} onClick={() => setPickerOpen(true)} />
 
       <Content>
         <Button ref={triggerRef} onClick={() => copy(hex)}>
@@ -38,7 +38,7 @@ const Color = ({ id, hex, isLocked, toggleLocked, setNewColor }) => {
       <Picker
         isOpen={isPickerOpen}
         color={hex}
-        onChange={(v) => setNewColor(id, v)}
+        onChange={(v) => setColor(id, v)}
         triggerRef={triggerRef}
         onClose={() => setPickerOpen(false)}
       />
@@ -52,7 +52,6 @@ const Container = styled.div`
 
 const ColorBox = styled.div`
   height: 12rem;
-  background-color: ${(props) => props.color};
   cursor: pointer;
 
   @media (min-width: 768px) {

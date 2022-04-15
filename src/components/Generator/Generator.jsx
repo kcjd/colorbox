@@ -1,46 +1,30 @@
-import { useState } from 'react'
-import randomColor from 'randomcolor'
 import styled from 'styled-components'
 import Color from '../Color'
 import MainButton from '../MainButton'
+import useGenerator from '../../hooks/useGenerator'
 import useKeyPress from '../../hooks/useKeyPress'
 
-const initialState = randomColor({ count: 4 }).map((hex, id) => ({ id, hex, isLocked: false }))
-
 const Generator = () => {
-  const [colors, setColors] = useState(initialState)
-
-  const generateColors = () => {
-    setColors((prev) => prev.map((c) => (c.isLocked ? c : { ...c, hex: randomColor() })))
-  }
-
-  const toggleLocked = (id) => {
-    setColors((prev) => prev.map((c) => (c.id === id ? { ...c, isLocked: !c.isLocked } : c)))
-  }
-
-  const setNewColor = (id, hex) => {
-    setColors((prev) => prev.map((c) => (c.id === id ? { ...c, hex } : c)))
-  }
-
-  useKeyPress('g', generateColors)
+  const { palette, generate, toggleLocked, setColor } = useGenerator()
+  useKeyPress('g', generate)
 
   return (
     <Container>
       <Palette>
-        {colors.map((c) => (
+        {palette.map((c) => (
           <Color
             id={c.id}
             hex={c.hex}
             isLocked={c.isLocked}
             toggleLocked={toggleLocked}
-            setNewColor={setNewColor}
+            setColor={setColor}
             key={c.id}
           />
         ))}
       </Palette>
 
       <Controls>
-        <MainButton onClick={generateColors}>Generate Random</MainButton>
+        <MainButton onClick={generate}>Generate Random</MainButton>
         <HelpText>
           Or press <kbd>G</kbd> key
         </HelpText>
